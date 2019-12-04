@@ -161,7 +161,7 @@ extern class GitTime {
 @:structAccess
 @:native("git_time_t")
 extern abstract GitTimeT(Int) from(Int) to(Int) {
-	@:to extern public inline function toInt():Int {
+	@:to public inline function toInt():Int {
 		return this;
     }
 }
