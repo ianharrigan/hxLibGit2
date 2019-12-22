@@ -27,7 +27,7 @@ static int credentialsCallback(git_cred ** cred, const char * url, const char * 
 class Repository extends Common {
     private var pointer:RawPointer<GitRepository> = null;
     
-    private var _path:String;
+    public var path:String;
     
     public var user:UserDetails = null;
     
@@ -35,7 +35,7 @@ class Repository extends Common {
         var r = LibGit2.git_repository_open(RawPointer.addressOf(pointer), path);
         checkError(r);
         
-        _path = path;
+        this.path = path;
     }
     
     public function createWalker(sorting:Null<Int> = null, pushHead:Bool = true, hideGlob:String = "tags/*"):RevWalk {
