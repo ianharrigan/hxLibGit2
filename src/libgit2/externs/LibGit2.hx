@@ -47,9 +47,9 @@ extern class LibGit2 {
     @:native("git_commit_lookup")                   public static function git_commit_lookup(out:RawPointer<RawPointer<GitCommit>>, repo:RawPointer<GitRepository>, oid:RawPointer<GitOid>):Int;
     @:native("git_commit_message")                  public static function git_commit_message(commit:RawPointer<GitCommit>):ConstCharStar;
     @:native("git_commit_free")                     public static function git_commit_free(commit:RawPointer<GitCommit>):Void;
-    @:native("git_commit_author")                   public static function git_commit_author(commit:RawPointer<GitCommit>):ConstStar<GitSignature>;
-    @:native("git_commit_committer")                public static function git_commit_committer(commit:RawPointer<GitCommit>):ConstStar<GitSignature>;
-    @:native("git_commit_create")                   public static function git_commit_create(id:RawPointer<GitOid>, repo:RawPointer<GitRepository>, update_ref:ConstCharStar, author:RawPointer<GitSignature>, commiter:RawPointer<GitSignature>, message_encoding:ConstCharStar, message:ConstCharStar, tree:RawPointer<GitTree>, parent_count:Int, parents:Dynamic):Int;
+    @:native("git_commit_author")                   public static function git_commit_author(commit:RawPointer<GitCommit>):RawPointer<GitSignature>;
+    @:native("git_commit_committer")                public static function git_commit_committer(commit:RawPointer<GitCommit>):RawPointer<GitSignature>;
+    @:native("git_commit_create")                   public static function git_commit_create(id:RawPointer<GitOid>, repo:RawPointer<GitRepository>, update_ref:ConstCharStar, author:RawPointer<GitSignature>, committer:RawPointer<GitSignature>, message_encoding:ConstCharStar, message:ConstCharStar, tree:RawPointer<GitTree>, parent_count:Int, parents:Dynamic):Int;
     
     @:native("git_blob_create_from_buffer")         public static function git_blob_create_from_buffer(id:RawPointer<GitOid>, repo:RawPointer<GitRepository>, buffer:ConstCharStar, len:Int):Int;
     @:native("git_blob_lookup")                     public static function git_blob_lookup(blob:RawPointer<RawPointer<GitBlob>>, repo:RawPointer<GitRepository>, id:RawPointer<GitOid>):Int;

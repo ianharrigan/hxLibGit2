@@ -46,14 +46,16 @@ class Commit extends Common {
         
         commit._message = LibGit2.git_commit_message(p);
         
+        /*
         var author = LibGit2.git_commit_author(p);
         if (author != null) {
-            commit.author = new Signature(author.name, author.email, untyped __cpp__("(int){0}", author.when.time));
+            //commit.author = new Signature(author.name, author.email, untyped __cpp__("(int){0}", author.when.time));
         }
         var committer = LibGit2.git_commit_committer(p);
         if (committer != null) {
             commit.committer = new Signature(committer.name, committer.email, untyped __cpp__("(int){0}", committer.when.time));
         }
+        */
         
         return commit;
     }

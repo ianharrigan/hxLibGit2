@@ -21,8 +21,8 @@ class RevWalk extends Common {
     public function new(repository:Repository) {
         super();
         this.repository = repository;
-        var e = LibGit2.git_revwalk_new(RawPointer.addressOf(_walker), repository._repo);
-        checkError(e);
+        var r = LibGit2.git_revwalk_new(RawPointer.addressOf(_walker), repository._repo);
+        checkError(r);
     }
     
     public var sorting(null, set):Int;

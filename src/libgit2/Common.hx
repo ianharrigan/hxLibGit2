@@ -7,7 +7,7 @@ class Common {
     }
     
     public function free() {
-        
+        throw "Must override";
     }
     
     private function checkError(e, throwException:Bool = true):Error {
