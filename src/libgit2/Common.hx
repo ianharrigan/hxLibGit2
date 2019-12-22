@@ -10,11 +10,15 @@ class Common {
         
     }
     
-    private function checkError(e) {
+    private function checkError(e, throwException:Bool = true):Error {
+        var error:Error = null;
         if (e < 0) {
-            var error = Lib.lastError;
+            error = Lib.lastError;
             error.code = e;
-            throw error;
+            if (throwException == true) {
+                throw error;
+            }
         }
+        return error;
     }
 }

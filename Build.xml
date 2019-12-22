@@ -8,6 +8,19 @@
             <compilerflag value="-DLIBGIT2_NO_FEATURES_H" />
             
             <compilerflag value="-DGIT_REGEX_BUILTIN" />
+            <!--
+            <compilerflag value="-DGIT_FEATURE_HTTPS" />
+            -->
+            <!--
+            <compilerflag value="-DGIT_HTTPS" />
+            <compilerflag value="-DUSE_HTTPS=OpenSSL" />
+            -->
+            <compilerflag value="-DGIT_WINHTTP" />
+            <compilerflag value="-DGIT_HTTPS" />
+            <!--
+            <compilerflag value="-DGIT_OPENSSL" />
+            -->
+
             
             <compilerflag value="-DLINK_SIZE=2" />
             <compilerflag value="-DMAX_NAME_SIZE=32" />
@@ -17,7 +30,10 @@
             <compilerflag value="-DMATCH_LIMIT=10000000" />
             <compilerflag value="-DMATCH_LIMIT_RECURSION=10000000" />
             <compilerflag value="-DPOSIX_MALLOC_THRESHOLD=10" />
+            <compilerflag value="-DCURL=OFF" />
+            <!--
             <compilerflag value="-DSUPPORT_UCP" />
+            -->
             
             <compilerflag value="-I${lib_folder}/include" />
             <compilerflag value="-I${lib_folder}/src" />
@@ -134,6 +150,7 @@
             <file name="${lib_folder}/src/proxy.c" />
             <file name="${lib_folder}/src/net.c" />
             <file name="${lib_folder}/src/settings.c" />
+            <file name="${lib_folder}/src/reset.c" />
             
             <file name="${lib_folder}/src/xdiff/xmerge.c" />
             <file name="${lib_folder}/src/xdiff/xutils.c" />
@@ -159,35 +176,6 @@
             <file name="${lib_folder}/src/transports/cred.c" />
             <file name="${lib_folder}/src/transports/git.c" />
             
-            <!--
-            <file name="${lib_folder}/deps/zlib/inflate.c" />
-            <file name="${lib_folder}/deps/zlib/deflate.c" />
-            <file name="${lib_folder}/deps/zlib/adler32.c" />
-            <file name="${lib_folder}/deps/zlib/crc32.c" />
-            <file name="${lib_folder}/deps/zlib/zutil.c" />
-            <file name="${lib_folder}/deps/zlib/inftrees.c" />
-            <file name="${lib_folder}/deps/zlib/inffast.c" />
-            <file name="${lib_folder}/deps/zlib/trees.c" />
-            -->
-
-            <!--
-            <file name="${lib_folder}/deps/pcre/pcre_globals.c" />
-            <file name="${lib_folder}/deps/pcre/pcre_tables.c" />
-            <file name="${lib_folder}/deps/pcre/pcre_newline.c" />
-            <file name="${lib_folder}/deps/pcre/pcre_maketables.c" />
-            <file name="${lib_folder}/deps/pcre/pcre_chartables.c" />
-            <file name="${lib_folder}/deps/pcre/pcreposix.c" />
-            <file name="${lib_folder}/deps/pcre/pcre_compile.c" />
-            <file name="${lib_folder}/deps/pcre/pcre_exec.c" />
-            <file name="${lib_folder}/deps/pcre/pcre_get.c" />
-            <file name="${lib_folder}/deps/pcre/pcre_fullinfo.c" />
-            -->
-            <!--
-            <file name="${lib_folder}/deps/pcre/pcre_ord2utf8.c" />
-            <file name="${lib_folder}/deps/pcre/pcre_valid_utf8.c" />
-            <file name="${lib_folder}/deps/pcre/pcre_xclass.c" />
-            -->    
-
             <file name="${lib_folder}/deps/http-parser/http_parser.c" />
             
             <file name="${lib_folder}/src/allocators/stdalloc.c" />
@@ -196,7 +184,7 @@
         </files>
     </section>
 
-    <section>
+    <section if="linux">
         <files id="haxe">
             <file name="${lib_folder}/src/unix/map.c" />
             <file name="${lib_folder}/src/unix/realpath.c" />
@@ -219,11 +207,41 @@
             <file name="${lib_folder}/src/win32/findfile.c" />
             <file name="${lib_folder}/src/win32/w32_buffer.c" />
             <file name="${lib_folder}/src/win32/dir.c" />
+
+            <file name="${lib_folder}/src/transports/winhttp.c" />
+
+            <file name="${lib_folder}/deps/zlib/inflate.c" />
+            <file name="${lib_folder}/deps/zlib/deflate.c" />
+            <file name="${lib_folder}/deps/zlib/adler32.c" />
+            <file name="${lib_folder}/deps/zlib/crc32.c" />
+            <file name="${lib_folder}/deps/zlib/zutil.c" />
+            <file name="${lib_folder}/deps/zlib/inftrees.c" />
+            <file name="${lib_folder}/deps/zlib/inffast.c" />
+            <file name="${lib_folder}/deps/zlib/trees.c" />
+
+            <file name="${lib_folder}/deps/pcre/pcre_globals.c" />
+            <file name="${lib_folder}/deps/pcre/pcre_tables.c" />
+            <file name="${lib_folder}/deps/pcre/pcre_newline.c" />
+            <file name="${lib_folder}/deps/pcre/pcre_maketables.c" />
+            <file name="${lib_folder}/deps/pcre/pcre_chartables.c" />
+            <file name="${lib_folder}/deps/pcre/pcreposix.c" />
+            <file name="${lib_folder}/deps/pcre/pcre_compile.c" />
+            <file name="${lib_folder}/deps/pcre/pcre_exec.c" />
+            <file name="${lib_folder}/deps/pcre/pcre_get.c" />
+            <file name="${lib_folder}/deps/pcre/pcre_fullinfo.c" />
+
+            <file name="${lib_folder}/deps/pcre/pcre_ord2utf8.c" />
+            <file name="${lib_folder}/deps/pcre/pcre_valid_utf8.c" />
+            <file name="${lib_folder}/deps/pcre/pcre_xclass.c" />
         </files>
 
         <target id="haxe" tool="linker" toolid="exe" if="windows">
             <lib name="ws2_32.lib" />
             <lib name="advapi32.lib" />
+            <lib name="winhttp.lib" />
+            <lib name="ole32.lib" />
+            <lib name="rpcrt4.lib" />
+            <lib name="crypt32.lib" />
         </target>
     </section>
 </xml>
