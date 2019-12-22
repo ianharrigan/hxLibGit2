@@ -9,9 +9,9 @@ import libgit2.externs.LibGit2.GitIndex;
 class Index extends Common {
     private var pointer:RawPointer<GitIndex> = null;
     
-    public var repository:Repository2;
+    public var repository:Repository;
     
-    public function new(repository:Repository2) {
+    public function new(repository:Repository) {
         super();
         this.repository = repository;
     }

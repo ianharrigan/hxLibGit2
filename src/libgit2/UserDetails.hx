@@ -13,8 +13,8 @@ class UserDetails {
         this.password = password;
     }
     
-    public var signature(get, null):Signature2;
-    private function get_signature():Signature2 {
-        return new Signature2(name, email);
+    public var signature(get, null):Signature;
+    private function get_signature():Signature {
+        return new Signature(name, email);
     }
 }

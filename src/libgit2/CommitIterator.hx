@@ -1,10 +1,10 @@
 package libgit2;
 
 class CommitIterator {
-    private var _repoistory:Repository2;
+    private var _repoistory:Repository;
     private var _it:RevWalkIterator;
     
-    public function new(repoistory:Repository2, it:RevWalkIterator) {
+    public function new(repoistory:Repository, it:RevWalkIterator) {
         _repoistory = repoistory;
         _it = it;
     }
@@ -13,10 +13,10 @@ class CommitIterator {
         return _it.hasNext();
     }
 
-    private var _currentCommit:Commit2 = null;
-    public function next():Commit2 {
+    private var _currentCommit:Commit = null;
+    public function next():Commit {
         if (_currentCommit == null) {
-            _currentCommit = new Commit2(_repoistory);
+            _currentCommit = new Commit(_repoistory);
         }
         var oid = _it.next();
         _currentCommit.lookup(oid);

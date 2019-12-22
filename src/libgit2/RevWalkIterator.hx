@@ -4,12 +4,12 @@ import libgit2.externs.LibGit2;
 
 @:unreflective
 @:access(libgit2.Oid)
-@:access(libgit2.RevWalk2)
+@:access(libgit2.RevWalk)
 class RevWalkIterator {
     private var _oid:Oid = new Oid();
-    private var _walker:RevWalk2;
+    private var _walker:RevWalk;
     
-    public function new(walker:RevWalk2) {
+    public function new(walker:RevWalk) {
         _walker = walker;
     }
     
