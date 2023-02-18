@@ -12,7 +12,7 @@ import cpp.RawPointer;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@:buildXml("<include name='${haxelib:hxLibGit2}/../Build.xml'/>")
+@:buildXml("<include name='${haxelib:hxLibGit2}/Build.xml'/>")
 @:include("git2.h")
 @:unreflective
 @:structAccess
@@ -25,6 +25,7 @@ extern class LibGit2 {
     @:native("git_repository_free")                 public static function git_repository_free(repo:RawPointer<GitRepository>):Void;
     @:native("git_repository_index")                public static function git_repository_index(out:RawPointer<RawPointer<GitIndex>>, repo:RawPointer<GitRepository>):Int;
     @:native("git_repository_state_cleanup")        public static function git_repository_state_cleanup(repo:RawPointer<GitRepository>):Int;
+    @:native("git_repository_is_bare")              public static function git_repository_is_bare(repo:RawPointer<GitRepository>):Bool;
 
     @:native("git_index_add_bypath")                public static function git_index_add_bypath(index:RawPointer<GitIndex>, path:ConstCharStar):Int;
     @:native("git_index_get_byindex")               public static function git_index_get_byindex(index:RawPointer<GitIndex>, n:Int):RawConstPointer<GitIndexEntry>;
@@ -79,6 +80,12 @@ extern class LibGit2 {
 
     @:native("git_push_options_init")               public static function git_push_options_init(options:RawPointer<GitPushOptions>, version:Int):Int;
 
+    @:native("git_status_options_init")             public static function git_status_options_init(options:RawPointer<GitStatusOptions>, version:Int):Int;
+    @:native("git_status_list_new")                 public static function git_status_list_new(out:RawPointer<RawPointer<GitStatusList>>, repo:RawPointer<GitRepository>, options:RawPointer<GitStatusOptions>):Int;
+    @:native("git_status_list_entrycount")          public static function git_status_list_entrycount(statuslist:RawPointer<GitStatusList>):Int;
+    @:native("git_status_byindex")                  public static function git_status_byindex(statuslist:RawPointer<GitStatusList>, idx:Int):RawConstPointer<GitStatusEntry>;
+    @:native("git_status_list_free")                public static function git_status_list_free(statuslist:RawPointer<GitStatusList>):Int;
+
     @:native("git_reset_default")                   public static function git_reset_default(array:RawPointer<GitRepository>, target:RawPointer<GitObject>, pathspecs:RawPointer<GitStrArray>):Int;
     
     @:native("git_oid_tostr")                       public static function git_oid_tostr(out:CharStar, n:Int, oid:RawPointer<GitOid>):Void;
@@ -113,12 +120,35 @@ class LibGit2Direction {
 
 @:headerInclude("git2.h")
 class LibGit2RemoteCallbacks {
-    public static var REMOTE_CALLBACKS_VERSION              = untyped __cpp__("GIT_REMOTE_CALLBACKS_VERSION");
+    public static var REMOTE_CALLBACKS_VERSION                  = untyped __cpp__("GIT_REMOTE_CALLBACKS_VERSION");
 }
 
 @:headerInclude("git2.h")
 class LibGit2PushOptions {
-    public static var PUSH_OPTIONS_VERSION              = untyped __cpp__("GIT_PUSH_OPTIONS_VERSION");
+    public static var PUSH_OPTIONS_VERSION                      = untyped __cpp__("GIT_PUSH_OPTIONS_VERSION");
+}
+
+@:headerInclude("git2.h")
+class LibGit2StatusOptions {
+    public static var STATUS_OPTIONS_VERSION                    = untyped __cpp__("GIT_STATUS_OPTIONS_VERSION");
+}
+
+@:headerInclude("git2.h")
+class LibGit2Status {
+    public static var STATUS_CURRENT                            = untyped __cpp__("GIT_STATUS_CURRENT");
+    public static var STATUS_INDEX_NEW                          = untyped __cpp__("GIT_STATUS_INDEX_NEW");
+    public static var STATUS_INDEX_MODIFIED                     = untyped __cpp__("GIT_STATUS_INDEX_MODIFIED");
+    public static var STATUS_INDEX_DELETED                      = untyped __cpp__("GIT_STATUS_INDEX_DELETED");
+    public static var STATUS_INDEX_RENAMED                      = untyped __cpp__("GIT_STATUS_INDEX_RENAMED");
+    public static var STATUS_INDEX_TYPECHANGE                   = untyped __cpp__("GIT_STATUS_INDEX_TYPECHANGE");
+    public static var STATUS_WT_NEW                             = untyped __cpp__("GIT_STATUS_WT_NEW");
+    public static var STATUS_WT_MODIFIED                        = untyped __cpp__("GIT_STATUS_WT_MODIFIED");
+    public static var STATUS_WT_DELETED                         = untyped __cpp__("GIT_STATUS_WT_DELETED");
+    public static var STATUS_WT_TYPECHANGE                      = untyped __cpp__("GIT_STATUS_WT_TYPECHANGE");
+    public static var STATUS_WT_RENAMED                         = untyped __cpp__("GIT_STATUS_WT_RENAMED");
+    public static var STATUS_WT_UNREADABLE                      = untyped __cpp__("GIT_STATUS_WT_UNREADABLE");
+    public static var STATUS_IGNORED                            = untyped __cpp__("GIT_STATUS_IGNORED");
+    public static var STATUS_CONFLICTED                         = untyped __cpp__("GIT_STATUS_CONFLICTED");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -130,6 +160,64 @@ class LibGit2PushOptions {
 @:structAccess
 @:native("git_repository")
 extern class GitRepository {
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@:include("git2.h")
+@:unreflective
+@:structAccess
+@:native("git_status_list")
+extern class GitStatusList {
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@:include("git2.h")
+@:unreflective
+@:structAccess
+@:native("git_status_entry")
+extern class GitStatusEntry {
+    var status:Int;
+    var head_to_index:RawPointer<GitDiffDelta>;
+    var index_to_workdir:RawPointer<GitDiffDelta>;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@:include("git2.h")
+@:unreflective
+@:structAccess
+@:native("git_diff_delta")
+extern class GitDiffDelta {
+    var status:Int;
+    var flags:Int;
+    var similarity:Int;
+    var nfiles:Int;
+    var old_file:GitDiffFile;
+    var new_file:GitDiffFile;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+@:include("git2.h")
+@:unreflective
+@:structAccess
+@:native("git_diff_file")
+extern class GitDiffFile {
+    var oid:GitOid;
+    var path:String;
+    var size:Int;
+    var flags:Int;
+    var mode:Int;
+    var id_abbrev:Int;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -312,6 +400,21 @@ extern class GitPushOptions {
     
     public var callbacks:GitRemoteCallbacks;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@:include("git2.h")
+@:unreflective
+@:structAccess
+@:native("git_status_options")
+extern class GitStatusOptions {
+    public static inline function alloc():GitStatusOptions {
+        return untyped __cpp__("{}");
+    }
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

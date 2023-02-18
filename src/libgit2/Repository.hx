@@ -207,6 +207,11 @@ class Repository extends Common {
         LibGit2.git_remote_free(remote.pointer);
     }
     
+    public function status():StatusList {
+        var statusList = new StatusList(this);
+        return statusList;
+    }
+
     public function stateCleanup() {
         var r = LibGit2.git_repository_state_cleanup(pointer);
         checkError(r);

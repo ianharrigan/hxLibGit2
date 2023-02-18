@@ -50,7 +50,7 @@ class RevWalk extends Common {
     
     public function iterator(spec:String):RevWalkIterator {
         var it = new RevWalkIterator(this);
-        
+
         var parser = new RevParse(repository);
         var o = parser.single(spec);
         hide(o.oid);

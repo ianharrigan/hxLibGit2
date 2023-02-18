@@ -1,5 +1,5 @@
 <xml>
-    <set name="lib_folder" value="${haxelib:hxLibGit2}/../libgit2" />
+    <set name="lib_folder" value="${haxelib:hxLibGit2}/libgit2" />
 
     <echo value="Using libgit2 from: ${lib_folder}" />
 
@@ -151,6 +151,7 @@
             <file name="${lib_folder}/src/net.c" />
             <file name="${lib_folder}/src/settings.c" />
             <file name="${lib_folder}/src/reset.c" />
+            <file name="${lib_folder}/src/status.c" />
             
             <file name="${lib_folder}/src/xdiff/xmerge.c" />
             <file name="${lib_folder}/src/xdiff/xutils.c" />
@@ -193,8 +194,10 @@
 
     <section if="windows">
         <files id="haxe">
+            <!--
             <compilerflag value="-DUNICODE" />
             <compilerflag value="-D_UNICODE" />
+            -->
             <compilerflag value="-DWIN32" />
             <compilerflag value="-I${lib_folder}/src/win32" />
             
@@ -219,6 +222,7 @@
             <file name="${lib_folder}/deps/zlib/inffast.c" />
             <file name="${lib_folder}/deps/zlib/trees.c" />
 
+            <!--
             <file name="${lib_folder}/deps/pcre/pcre_globals.c" />
             <file name="${lib_folder}/deps/pcre/pcre_tables.c" />
             <file name="${lib_folder}/deps/pcre/pcre_newline.c" />
@@ -233,6 +237,7 @@
             <file name="${lib_folder}/deps/pcre/pcre_ord2utf8.c" />
             <file name="${lib_folder}/deps/pcre/pcre_valid_utf8.c" />
             <file name="${lib_folder}/deps/pcre/pcre_xclass.c" />
+            -->
         </files>
 
         <target id="haxe" tool="linker" toolid="exe" if="windows">
